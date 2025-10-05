@@ -4,12 +4,17 @@ using System.Reflection;
 
 namespace GymManagementDAL.Data.Context
 {
-    internal class GymManagementDbContext : DbContext
+    public class GymManagementDbContext : DbContext
     {
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        public GymManagementDbContext(DbContextOptions options) : base( options )
         {
-            optionsBuilder.UseSqlServer("Server=. ; Database = GymManagementSystem ; Trusted_Connection=True;  TrustServerCertificate = True ");
+
+
         }
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    optionsBuilder.UseSqlServer("Server=. ; Database = GymManagementSystem ; Trusted_Connection=True;  TrustServerCertificate = True ");
+        //}
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
