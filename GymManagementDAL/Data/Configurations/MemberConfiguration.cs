@@ -21,7 +21,7 @@ namespace GymManagementDAL.Data.Configurations
 
             builder.Property(P => P.CreateAt)
                     .HasColumnName("JoinDate")
-                    .HasDefaultValue("GETDATE()");
+                    .HasDefaultValueSql("GETDATE()");
 
             #endregion
 

@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace GymManagementDAL.Data.Configurations
 {
-    internal class TrainerConfiguration : GymUserConfiguration<Member>, IEntityTypeConfiguration<Trainer>
+    internal class TrainerConfiguration : GymUserConfiguration<Trainer>, IEntityTypeConfiguration<Trainer>
     {
         public new void Configure(EntityTypeBuilder<Trainer> builder)
         {
@@ -15,7 +15,7 @@ namespace GymManagementDAL.Data.Configurations
             //Default Value Insertion Date 
             builder.Property(P => P.CreateAt)
                    .HasColumnName("HireDate")
-                   .HasDefaultValue("GETDATE()");
+                .HasDefaultValueSql("GETDATE()");
 
             #endregion
         }

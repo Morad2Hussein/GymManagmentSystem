@@ -17,7 +17,7 @@ namespace GymManagementDAL.Data.Configurations
             // The BookingDate AS a CreateAt In BaseEntity 
             builder.Property(P => P.CreateAt)
                     .HasColumnName("BookingDate")
-                    .HasDefaultValue("GETDATE()");
+                    .HasDefaultValueSql("GETDATE()");
             //Composite Primary Key
             builder.Ignore(p => p.Id);
             builder.HasKey(P => new { P.MemberId, P.SessionId });

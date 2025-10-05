@@ -13,7 +13,7 @@ namespace GymManagementDAL.Data.Configurations
             // StartDate AS A CreateAT 
             builder.Property(P => P.CreateAt)
                    .HasColumnName("StartDate")
-                    .HasDefaultValue("GETDATE()");
+                    .HasDefaultValueSql("GETDATE()");
             //Composite Primary Key
             builder.HasKey(p => new { p.PlanId, p.MemberId });
             //  Ignore THE id

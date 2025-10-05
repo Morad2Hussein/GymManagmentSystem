@@ -14,9 +14,9 @@ namespace GymManagementDAL.Data.Configurations
         public void Configure(EntityTypeBuilder<Category> builder)
         {
             #region Properties 
-            //  Name Varchar With Max Length 50
+            //  Name varchar With Max Length 50
             builder.Property(P => P.Name)
-                   .HasColumnType("Varchar")   
+                   .HasColumnType("varchar")   
                    .HasMaxLength(50);
 
             #endregion

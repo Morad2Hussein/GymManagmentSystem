@@ -14,44 +14,39 @@ namespace GymManagementDAL.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<T> builder)
         {
-            // Varchar With Max Length 50
+            // varchar With Max Length 50
             builder.Property(P => P.Name)
-                   .HasColumnType("Varchar")
+                   .HasColumnType("varchar")
                    .HasMaxLength(50);
-            //Varchar With Max Length 100
+            //varchar With Max Length 100
             builder.Property(P => P.Email)
                     .HasMaxLength(100);
             //  Make Email Unique
-            builder.HasIndex(P => P.Email).IsUnique();
-            //Varchar With Max Length 11 
+            builder.HasIndex(p => p.Email).IsUnique();            //varchar With Max Length 11 
             builder.Property(P => P.Phone)
                     .HasMaxLength(11);
             // Make Phone AS   Unique
-            builder.HasIndex(P=>P.Phone).IsUnique();
-            //Valid  Format Of Email And PhoneNumber 
+            builder.HasIndex(p => p.Phone).IsUnique();            //Valid  Format Of Email And PhoneNumber 
             builder.ToTable(t =>
             {
                 t.HasCheckConstraint("EmailCheck", "Email LIKE '_%@_%._%'");
-                t.HasCheckConstraint("PhoneNumberCheck",
-                 "PhoneNumber LIKE '01%' AND LEN(PhoneNumber) = 11 AND PhoneNumber NOT LIKE '%[^0-9]%'");
-
+                t.HasCheckConstraint("PhoneCheck",
+                    "Phone LIKE '01%' AND LEN(Phone) = 11 AND Phone NOT LIKE '%[^0-9]%'");
             });
-            //Street  & City : Varchar With Max Length 30  
+
+            //Street  & City : varchar With Max Length 30  
             builder.OwnsOne(P => P.Address, AddressBuilder =>
             {
                 AddressBuilder.Property(AD=>AD.Street)
-                               .HasColumnType("Varchar")
+                               .HasColumnType("varchar")
                                .HasMaxLength(30);
                 AddressBuilder.Property(AD=>AD.City)
-                               .HasColumnType("Varchar")
+                               .HasColumnType("varchar")
                                .HasMaxLength(30);
             });
 
         }
 
-        internal void Configure(EntityTypeBuilder<Trainer> builder)
-        {
-            throw new NotImplementedException();
-        }
+
     }
 }

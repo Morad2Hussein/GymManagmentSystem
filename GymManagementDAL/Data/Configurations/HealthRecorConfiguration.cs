@@ -19,6 +19,7 @@ namespace GymManagementDAL.Data.Configurations
             builder.HasOne<Member>()
                    .WithOne(H => H.HealthRecord)
                    .HasForeignKey<HealthRecord>(H => H.Id); // SHEARED PRIMARY KEY 
+            builder.Ignore(H => H.CreateAt);
 
             #endregion
         }

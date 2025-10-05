@@ -11,11 +11,11 @@ namespace GymManagementDAL.Data.Configurations
         public void Configure(EntityTypeBuilder<Plan> builder)
         {
             #region Properties 
-            //  Name Varchar With Max Length 50
+            //  Name varchar With Max Length 50
             builder.Property(P => P.Name)
-                   .HasColumnType("Varchar")
+                   .HasColumnType("varchar")
                     .HasMaxLength(50);
-            //Description Varchar With Max Length 200
+            //Description varchar With Max Length 200
 
             //Price Stored as a decimal with 10 digits in total and 2 digits after the decimal point 
             builder.Property(P => P.Pirce)

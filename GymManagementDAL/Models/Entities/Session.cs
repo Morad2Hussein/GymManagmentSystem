@@ -8,8 +8,8 @@ namespace GymManagementDAL.Models.Entities
         #region Properties
         public int Capacity { get; set; }
         public string Description { get; set; } = null!;
-        public DateTime StratTime { get; set; }
-        public DateTime EndTime { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
         #endregion
         #region Relationships 
         #region Session - Categroy
