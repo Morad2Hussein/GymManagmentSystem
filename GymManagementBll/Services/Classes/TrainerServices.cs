@@ -21,16 +21,16 @@ namespace GymManagementBll.Services.Classes
         public IEnumerable<TrainerViewModels> GetAllTrinaer()
         {
             var Trainer = _unitOfWork.GetRepository<Trainer>().GetAll();
-            if (Trainer is null || Trainer.Any()) return [];
+            if (Trainer is null || !Trainer.Any()) return [];
             var TrainerViewModels = Trainer.Select(x => new TrainerViewModels
             {
+                Id = x.Id,
                 Name = x.Name,
                 Email = x.Email,
                 Phone = x.Phone,
-                
                 Specialties = x.Specialties.ToString()
             });
-            return  TrainerViewModels;
+            return TrainerViewModels;
 
         }
 
@@ -48,11 +48,11 @@ namespace GymManagementBll.Services.Classes
                     Name = trainerCreateViewModel.Name,
                     Email = trainerCreateViewModel.Email,
                     Phone = trainerCreateViewModel.Phone,
-                    Specialties = Enum.Parse<Specialties>(trainerCreateViewModel.Specialties),
-
+                    DateOfBirth = trainerCreateViewModel.DateOfBrith,
+                    Gender = trainerCreateViewModel.Gender,
+                    Specialties = trainerCreateViewModel.Specialties,
                     Address = new Address()
                     {
-
                         BuildingNumber = trainerCreateViewModel.BuildingNumber,
                         City = trainerCreateViewModel.City,
                         Street = trainerCreateViewModel.Street,
@@ -65,34 +65,42 @@ namespace GymManagementBll.Services.Classes
             {
                 return false;
             }
-        } 
+        }
         #endregion
 
+        //public bool DeleteTrainerDetails(int Id)
+        //{
+        //    var trainerRepo = _unitOfWork.GetRepository<Trainer>();
+        //    var sessionRepo = _unitOfWork.GetRepository<Session>();
+
+        //    var trainer = trainerRepo.GetById(Id);
+        //    if (trainer is null)
+        //        return false;
+
+        //    bool hasFutureSessions = sessionRepo
+        //        .GetAll(s => s.TrainerId == Id && s.StartDate > DateTime.Now)
+        //        .Any();
+
+        //    if (hasFutureSessions)
+        //        return false;
+
+        //    try
+        //    {
+        //        trainerRepo.Delete(trainer);
+        //        return _unitOfWork.SaveChanges() > 0;
+        //    }
+        //    catch (Exception)
+        //    {
+        //        return false;
+        //    }
+        //}
         public bool DeleteTrainerDetails(int Id)
         {
             var trainerRepo = _unitOfWork.GetRepository<Trainer>();
-            var sessionRepo = _unitOfWork.GetRepository<Session>();
-
-            var trainer = trainerRepo.GetById(Id);
-            if (trainer is null)
-                return false;
-
-            bool hasFutureSessions = sessionRepo
-                .GetAll(s => s.TrainerId == Id && s.StartDate > DateTime.Now)
-                .Any();
-
-            if (hasFutureSessions)
-                return false; 
-
-            try
-            {
-                trainerRepo.Delete(trainer);
-                return _unitOfWork.SaveChanges() > 0; 
-            }
-            catch (Exception)
-            {
-                return false;
-            }
+          var TrainerToDelete = trainerRepo.GetById(Id);
+            if (TrainerToDelete is null || HasActiveSession(Id) ) return false;
+            trainerRepo.Delete(TrainerToDelete); 
+            return _unitOfWork.SaveChanges() > 0;
         }
 
         #region Get By Id
@@ -103,11 +111,11 @@ namespace GymManagementBll.Services.Classes
             return new TrainerViewModels()
             {
                 Name = Trainer.Name,
-                Specialties = Trainer.Specialties.ToString(),
                 Email = Trainer.Email,
+                Specialties = Trainer.Specialties.ToString(),
                 Phone = Trainer.Phone,
-                DateOfBirth = Trainer.DateOfBirth.ToShortDateString(),
-                Address = $"{Trainer.Address.BuildingNumber},{Trainer.Address.Street},{Trainer.Address.City}",
+             //   DateOfBirth = Trainer.DateOfBirth.ToShortDateString(),
+             //   Address = $"{Trainer.Address.BuildingNumber},{Trainer.Address.Street},{Trainer.Address.City}",
 
 
             };
@@ -129,9 +137,6 @@ namespace GymManagementBll.Services.Classes
                 BuildingNumber = Trainer.Address.BuildingNumber,
                 City = Trainer.Address.City,
                 Street = Trainer.Address.Street,
-
-
-
             };
 
 
@@ -154,14 +159,14 @@ namespace GymManagementBll.Services.Classes
                 TrainerUpdate.Address.City = updateTrainerViewModel.City;
                 TrainerUpdate.Address.Street = updateTrainerViewModel.Street;
                 TrainerUpdate.UpdateAt = DateTime.Now;
-             return   _unitOfWork.SaveChanges() > 0;
+                return _unitOfWork.SaveChanges() > 0;
 
             }
             catch (Exception ex)
             {
                 return false;
             }
-        } 
+        }
         #endregion
         #region Helper Function Check Email&Phone
         private bool EmailExists(string email)
@@ -171,6 +176,12 @@ namespace GymManagementBll.Services.Classes
         private bool PhoneExists(string phone)
         {
             return _unitOfWork.GetRepository<Member>().GetAll(me => me.Phone == phone).Any();
+        }
+        private bool HasActiveSession(int id)
+        {
+            var activeSession = _unitOfWork.GetRepository<Session>().GetAll(
+                 ac=>ac.TrainerId == id && ac.StartDate == DateTime.Now).Any();
+            return activeSession;
         }
 
 

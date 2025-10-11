@@ -29,7 +29,8 @@ namespace GymManagementBll.ViewModels.TrainerModels
         #endregion
         #region Specialties
         [Required(ErrorMessage = "Specialties Is Requried Please Enter Your Specialties")]
-        public string Specialties { get; set; } = null!;
+        [EnumDataType(typeof(Specialties))]
+        public Specialties Specialties { get; set; } 
         #endregion
         #region Gender
         [Required(ErrorMessage = "Gender Is Requried Please Enter Your Gender")]

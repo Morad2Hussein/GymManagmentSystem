@@ -14,11 +14,11 @@ namespace GymManagementDAL.Repositories.Interfaces
         //GetByID
         TEntity? GetById(int id);
         // ADD 
-        int Add(TEntity entity);
+        void Add(TEntity entity);
         // Update
-        int Update (TEntity entity);
+        void Update (TEntity entity);
         // Delete 
-        int Delete (TEntity entity);
+        void Delete (TEntity entity);
 
 
 

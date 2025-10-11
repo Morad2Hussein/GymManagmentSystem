@@ -1,6 +1,5 @@
 using GymManagementDAL.Data.Context;
-using GymManagementDAL.Repositories.classes;
-using GymManagementDAL.Repositories.Interfaces;
+
 using GymManagementDAL.UnitOfWork;
 using Microsoft.EntityFrameworkCore;
 

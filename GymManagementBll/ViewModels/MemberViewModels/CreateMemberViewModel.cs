@@ -23,7 +23,6 @@ namespace GymManagementBll.ViewModels.MemberViewModels
         [DataType(DataType.EmailAddress)] // UI HINT
         public string Email { get; set; } = null!;
         #endregion
-
         #region PhoneNumber 
         [Required(ErrorMessage = "Phone is Required Please Enter Your Phone.")]
         [Phone(ErrorMessage = "Invliod Phone Format ")]

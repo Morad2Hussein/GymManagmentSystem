@@ -2,25 +2,16 @@
 using GymManagementBll.ViewModels.MemberViewModels;
 using GymManagementDAL.Models.Common;
 using GymManagementDAL.Models.Entities;
-using GymManagementDAL.Repositories.classes;
-using GymManagementDAL.Repositories.Interfaces;
+
 using GymManagementDAL.UnitOfWork;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace GymManagementBll.Services.Classes
 {
     public class MemberService : IMemberService
     {
         private readonly IUnitOfWork _unitOfWork;
-        //private readonly IGenericRepository<Member> _memberRepository;
-        //private readonly IGenericRepository<MemberShip> _memberShipRepository;
-        //private readonly IPlanReposittory _planReposittory;
-        //private readonly IGenericRepository<HealthRecord> _healthRecordRepository;
-        //private readonly IGenericRepository<MemberSession> _memberSession;
+  
         public MemberService( IUnitOfWork unitOfWork ) {
         
          _unitOfWork = unitOfWork;
@@ -233,7 +224,8 @@ namespace GymManagementBll.Services.Classes
                         MemberShipRepo.Delete(memberShip);
                     }
                 }
-                  return MemberRepositiry.Delete(Member) > 0;
+                   MemberRepositiry.Delete(Member) ;
+                return _unitOfWork.SaveChanges() > 0;
                  
             }
             catch (Exception)
