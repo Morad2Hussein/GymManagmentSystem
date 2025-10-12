@@ -1,4 +1,5 @@
-﻿using GymManagementBll.Services.Interfaces;
+﻿using AutoMapper;
+using GymManagementBll.Services.Interfaces;
 using GymManagementBll.ViewModels.PlanViewModels;
 using GymManagementDAL.Models.Entities;
 using GymManagementDAL.UnitOfWork;
@@ -13,25 +14,20 @@ namespace GymManagementBll.Services.Classes
 {
     public class PlanServiec : IPlanServiec
     {
-        private UnitOfWork _unitOfWork;
-         public PlanServiec(UnitOfWork unitOfWork) {
+        private readonly UnitOfWork _unitOfWork;
+        private readonly IMapper _imapper;
+         public PlanServiec(UnitOfWork unitOfWork, IMapper mapper) {
           _unitOfWork = unitOfWork;
+            _imapper = mapper;
         }
         #region GetAll
         public IEnumerable<PlanViewModel> GetAllPlans()
         {
             var Plans = _unitOfWork.GetRepository<Plan>().GetAll();
             if (Plans == null || !Plans.Any()) return [];
-            return Plans.Select(p => new PlanViewModel()
-            {
-                id = p.Id,
-                Name = p.Name,
-                Description = p.Description,
-                DurationDays = p.DurationDays,
-                IsActive = p.IsVctive,
-                Price = p.Pirce,
 
-            });
+            var PlanView = _imapper.Map<IEnumerable<Plan>, IEnumerable<PlanViewModel>>(Plans);
+            return PlanView;
         }
         #endregion
         #region GetByID
@@ -40,15 +36,9 @@ namespace GymManagementBll.Services.Classes
         {
             var Plan = _unitOfWork.GetRepository<Plan>().GetById(id);
             if (Plan is null) return null;
-            return new PlanViewModel() { 
-              id = Plan.Id,
-              Name = Plan.Name,
-              Description = Plan.Description,
-              DurationDays = Plan.DurationDays,
-              IsActive = Plan.IsVctive,
-              Price = Plan.Pirce,
-            
-            };
+
+            var PlanView = _imapper.Map<Plan, PlanViewModel>(Plan);
+            return PlanView;
         }
         #endregion
         #region ToggleStatus
@@ -79,13 +69,7 @@ namespace GymManagementBll.Services.Classes
         {
             var Plan = _unitOfWork.GetRepository<Plan>().GetById(PlanId);
             if (Plan is null  || Plan.IsVctive == false || HasMemberActive(PlanId)) return null;
-            return new UpdatePlanViewModel()
-            {
-                Name = Plan.Name,
-                Description = Plan.Description,
-                DurationDays = Plan.DurationDays,
-                Price = Plan.Pirce,
-            };
+            return _imapper.Map<UpdatePlanViewModel>(Plan);
 
 
 
@@ -93,13 +77,11 @@ namespace GymManagementBll.Services.Classes
         public bool UpdatePlan(int id, UpdatePlanViewModel planViewModel)
         {
             var Plan = _unitOfWork.GetRepository<Plan>().GetById(id);
-            if(Plan is null || HasMemberActive(id) ) return false;
             try
             {
-                Plan.Name = planViewModel.Name;
-                Plan.Description = planViewModel.Description;
-                Plan.DurationDays = planViewModel.DurationDays;
-                Plan.Pirce = planViewModel.Price;
+            if(Plan is null || HasMemberActive(id) ) return false;
+              
+               _imapper.Map<UpdatePlanViewModel>(Plan);
                 Plan.UpdateAt = DateTime.Now;
                 _unitOfWork.GetRepository<Plan>().Update(Plan);
                 return _unitOfWork.SaveChanges() > 0;

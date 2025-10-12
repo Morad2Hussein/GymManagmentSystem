@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using GymManagementBll.ViewModels.MemberViewModels;
+using GymManagementBll.ViewModels.PlanViewModels;
 using GymManagementBll.ViewModels.TrainerModels;
 using GymManagementDAL.Models.Common;
 using GymManagementDAL.Models.Entities;
@@ -96,6 +97,12 @@ namespace GymManagementBll.Mapping
                     .ForMember(dest => dest.City, opt => opt.MapFrom(src => src.Address.City));
             #endregion
 
+            #endregion
+            #region Plan Mapper
+            CreateMap<Plan, PlanViewModel>();
+            // UPdate Plan
+            CreateMap<Plan, UpdatePlanViewModel>();
+         
             #endregion
 
         }
