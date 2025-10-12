@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using GymManagementBll.ViewModels.MemberViewModels;
+using GymManagementBll.ViewModels.TrainerModels;
 using GymManagementDAL.Models.Common;
 using GymManagementDAL.Models.Entities;
 using GymManagementSystemBLL.ViewModels.SessionViewModels;
@@ -74,6 +75,27 @@ namespace GymManagementBll.Mapping
             CreateMap<MemberUpdateViewModel, Address>();
 
             #endregion
+            #endregion
+            #region Trainer Mapping 
+            CreateMap<Trainer, TrainerViewModels>();
+            #region Create TrainerModel
+            CreateMap<Trainer,TrainerCreateViewModel>()
+                .ForMember(dest => dest.BuildingNumber, opt => opt.MapFrom(src => src.Address.BuildingNumber))
+                .ForMember(dest => dest.Street, opt => opt.MapFrom(src => src.Address.Street))
+                .ForMember(dest => dest.City, opt => opt.MapFrom(src => src.Address.City));
+
+            CreateMap<Trainer, TrainerViewModels>()
+                               .ForMember(me=>me.Address , opt=>opt.Ignore())
+                               .ForMember(me=>me.DateOfBirth , opt=>opt.Ignore());
+
+            #endregion
+            #region Update Trainer
+            CreateMap<Trainer, UpdateTrainerViewModel>()
+                .ForMember(dest => dest.BuildingNumber, opt => opt.MapFrom(src => src.Address.BuildingNumber))
+                    .ForMember(dest => dest.Street, opt => opt.MapFrom(src => src.Address.Street))
+                    .ForMember(dest => dest.City, opt => opt.MapFrom(src => src.Address.City));
+            #endregion
+
             #endregion
 
         }
