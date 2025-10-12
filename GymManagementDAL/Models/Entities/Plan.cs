@@ -7,7 +7,7 @@ namespace GymManagementDAL.Models.Entities
     {
         #region Properties
         public string Name { get; set; } = null!;
-         public string Descrition { get; set; } = null!;
+         public string Description { get; set; } = null!;
         public int DurationDays { get; set; }
         public decimal Pirce { get; set; }
         public bool IsVctive  { get; set; }

@@ -1,4 +1,10 @@
+﻿using AutoMapper;
+using GymManagementBll.Mapping;
 using GymManagementDAL.Data.Context;
+using GymManagementDAL.Data.DataSeeding;
+using GymManagementDAL.Repositories.classes;
+using GymManagementDAL.Repositories.Interfaces;
+using GymManagementDAL.UnitOfWork;
 using Microsoft.EntityFrameworkCore;
 
 namespace GymManagementPl
@@ -15,7 +21,30 @@ namespace GymManagementPl
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
             });
-            var app = builder.Build();  
+
+            //builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(IGenericRepository<>));
+            //builder.Services.AddScoped<IPlanReposittory, PlanReposittory>();
+            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+            builder.Services.AddAutoMapper(au => au.AddProfile(new MappingProfile()));
+            builder.Services.AddScoped<ISessionRepository, SessionRepository>();
+            builder.Services.AddAutoMapper(au => au.AddProfile(new MappingProfile()));
+            var app = builder.Build();
+            // “start to add data seeding before any data insert”
+            #region Adding Data Seeding 
+            //Creates a service scope → so you can resolve scoped services (like DbContext).
+            //Applies any pending migrations automatically.
+            //Calls your custom GymDbContextSeeding.SeedData() to insert initial data. 
+            using var Scope = app.Services.CreateScope();
+            var dbContext = Scope.ServiceProvider.GetRequiredService<GymManagementDbContext>();
+            var PendingMigrations = dbContext.Database.GetPendingMigrations();
+            if (PendingMigrations?.Any() ?? false)
+                dbContext.Database.Migrate();
+            GymDbContextSeeding.SeedDate(dbContext);
+
+
+            #endregion
+
+
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
