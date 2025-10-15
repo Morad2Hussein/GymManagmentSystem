@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using GymManagementBll.Mapping;
+using GymManagementBll.Services.Classes;
+using GymManagementBll.Services.Interfaces;
 using GymManagementDAL.Data.Context;
 using GymManagementDAL.Data.DataSeeding;
 using GymManagementDAL.Repositories.classes;
@@ -28,6 +30,7 @@ namespace GymManagementPl
             builder.Services.AddAutoMapper(au => au.AddProfile(new MappingProfile()));
             builder.Services.AddScoped<ISessionRepository, SessionRepository>();
             builder.Services.AddAutoMapper(au => au.AddProfile(new MappingProfile()));
+            builder.Services.AddScoped<IAnalyticsService,AnalyticsService>();
             var app = builder.Build();
             // “start to add data seeding before any data insert”
             #region Adding Data Seeding 
