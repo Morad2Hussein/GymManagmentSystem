@@ -57,6 +57,9 @@ namespace GymManagementBll.Services.Classes
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex);
+
+
                 return false;
             }
 
@@ -68,7 +71,8 @@ namespace GymManagementBll.Services.Classes
         public UpdatePlanViewModel UpdatePlanById(int  PlanId)
         {
             var Plan = _unitOfWork.GetRepository<Plan>().GetById(PlanId);
-            if (Plan is null  || Plan.IsVctive == false || HasMemberActive(PlanId)) return null;
+            if (Plan == null  || HasMemberActive(PlanId)) return null;
+            //if (Plan is null  || Plan.IsVctive == false || HasMemberActive(PlanId)) return null;
             return _imapper.Map<UpdatePlanViewModel>(Plan);
 
 
@@ -86,7 +90,7 @@ namespace GymManagementBll.Services.Classes
                 _unitOfWork.GetRepository<Plan>().Update(Plan);
                 return _unitOfWork.SaveChanges() > 0;
             }
-            catch (Exception ex)
+            catch 
             {
                 return false;
             }

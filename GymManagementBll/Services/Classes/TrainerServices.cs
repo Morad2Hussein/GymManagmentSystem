@@ -43,7 +43,7 @@ namespace GymManagementBll.Services.Classes
                 _unitOfWork.GetRepository<Trainer>().Add(trainer);
                 return _unitOfWork.SaveChanges() > 0;
             }
-            catch (Exception ex)
+            catch 
             {
                 return false;
             }
@@ -102,7 +102,7 @@ namespace GymManagementBll.Services.Classes
                 return _unitOfWork.SaveChanges() > 0;
 
             }
-            catch (Exception ex)
+            catch 
             {
                 return false;
             }

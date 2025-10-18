@@ -18,7 +18,7 @@ namespace GymManagementBll.ViewModels.MemberViewModels
         [Required(ErrorMessage = "Blood Type is Required Plase Enter Your Blood Type")]
         [StringLength(3, MinimumLength = 2, ErrorMessage = " Your Blood Type Must Be  Between 2 and 3  Charaters")]
         public string BloodType { get; set; } = null!;
-        public string Note { get; set; }
+        public string Note { get; set; } = null!;
 
         #endregion
 
