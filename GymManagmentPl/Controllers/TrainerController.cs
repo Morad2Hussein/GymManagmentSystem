@@ -11,11 +11,14 @@ namespace GymManagementPl.Controllers
         {
             _trainerService = trainerService;
         }
+        #region getall data
         public ActionResult Index()
         {
             var Trainer = _trainerService.GetAllTrinaer();
-            return View(Trainer );
+            return View(Trainer);
         }
+        #endregion
+        #region Get Data By Id
         public ActionResult TrainerDetails(int id)
         {
             var trainer = _trainerService.GetTrainerDetailsById(id);
@@ -31,5 +34,13 @@ namespace GymManagementPl.Controllers
             }
             return View(trainer);
         }
+
+        #endregion
+        #region Create 
+        public ActionResult Create()
+        {
+            return View();
+        }
+        #endregion
     }
 }
