@@ -1,9 +1,10 @@
-﻿using AutoMapper;
+﻿
+
 using GymManagementBll.Mapping;
 using GymManagementBll.Services.Classes;
 using GymManagementBll.Services.Interfaces;
 using GymManagementDAL.Data.Context;
-using GymManagementDAL.Data.DataSeeding;
+using GymManagementDAL.Data.DataSeed;
 using GymManagementDAL.Repositories.classes;
 using GymManagementDAL.Repositories.Interfaces;
 using GymManagementDAL.UnitOfWork;
@@ -31,6 +32,9 @@ namespace GymManagementPl
             builder.Services.AddScoped<ISessionRepository, SessionRepository>();
             builder.Services.AddAutoMapper(au => au.AddProfile(new MappingProfile()));
             builder.Services.AddScoped<IAnalyticsService,AnalyticsService>();
+            builder.Services.AddScoped<IMemberService, MemberService>();
+            builder.Services.AddScoped<ITrainerService, TrainerServices>();
+
             var app = builder.Build();
             // “start to add data seeding before any data insert”
             #region Adding Data Seeding 
@@ -42,12 +46,11 @@ namespace GymManagementPl
             var PendingMigrations = dbContext.Database.GetPendingMigrations();
             if (PendingMigrations?.Any() ?? false)
                 dbContext.Database.Migrate();
-            GymDbContextSeeding.SeedDate(dbContext);
+            GymDataSeeding.SeedData(dbContext);
 
 
             #endregion
-
-
+        
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())

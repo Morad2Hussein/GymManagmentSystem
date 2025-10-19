@@ -3,7 +3,7 @@ using GymManagementBll.ViewModels.TrainerModels;
 
 namespace GymManagementBll.Services.Interfaces
 {
-    public interface ITranierService
+    public interface ITrainerService
     {
         IEnumerable<TrainerViewModels> GetAllTrinaer();
         TrainerViewModels? GetTrainerDetailsById(int TrainerId);

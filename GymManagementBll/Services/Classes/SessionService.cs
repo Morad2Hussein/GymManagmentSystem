@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using GymManagementBll.Services.Interfaces;
+using GymManagementBll.ViewModels.SessioViewModesl;
 using GymManagementDAL.Models.Entities;
 using GymManagementDAL.UnitOfWork;
 using GymManagementSystemBLL.ViewModels.SessionViewModels;
@@ -135,6 +136,25 @@ namespace GymManagementBll.Services.Classes
         }
 
         #endregion
+
+        #region Service will know it 
+        IEnumerable<TrainerSelectViewModel> ISessionService.GetTrainersForDropDown()
+        {
+            var trainers = _unitOfWork.GetRepository<Trainer>().GetAll();
+            return _mapper.Map<IEnumerable<TrainerSelectViewModel>>(trainers);
+        }
+
+        IEnumerable<CategorySelectViewModel> ISessionService.GetCategoriesForDropDown()
+        {
+            var categories = _unitOfWork.GetRepository<Category>().GetAll();
+            return _mapper.Map<IEnumerable<CategorySelectViewModel>>(categories);
+        }
+
+      
+
+       
+
+        #endregion
         #region Helper
         // check of trainer - category- startdate 
         private bool IsTrainder(int trId)
@@ -185,6 +205,8 @@ namespace GymManagementBll.Services.Classes
             return true;
 
         }
+
+
 
 
         #endregion

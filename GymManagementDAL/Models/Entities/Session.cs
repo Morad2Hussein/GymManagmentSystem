@@ -15,12 +15,12 @@ namespace GymManagementDAL.Models.Entities
         #region Session - Categroy
         // Many => 1
         public int CategoryId { get; set; }
-        public Category SessionCategory { get; set; }
+        public Category SessionCategory { get; set; } = null!;
         #endregion
         #region Trainer - Session
         // 1 to Many 
         public int TrainerId { get; set; }
-        public Trainer SessionTrainer { get; set; }
+        public Trainer SessionTrainer { get; set; } = null!;
 
         #endregion
         #region Session - MemberSession 

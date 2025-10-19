@@ -34,6 +34,7 @@ namespace GymManagementBll.Services.Classes
         #region Create Or Add A New Member 
         public bool CreateMember(CreateMemberViewModel createMember)
         {
+
             try
             {
                 // Email and Phone Is Unique 
@@ -47,7 +48,7 @@ namespace GymManagementBll.Services.Classes
 
                 return _unitOfWork.SaveChanges() > 0;
             }
-            catch (Exception)
+            catch 
             {
 
                 return false;
@@ -99,12 +100,12 @@ namespace GymManagementBll.Services.Classes
 
             var Member = _unitOfWork.GetRepository<Member>().GetById(MemberId);
             if (Member is null) return null;
-           var MemberUpdate = _mapper.Map<MemberUpdateViewModel>(Member);
+            var MemberUpdate = _mapper.Map<MemberUpdateViewModel>(Member);
             return MemberUpdate;
 
         }
         // Update Date
-       
+
         public bool UpdateMemberDetails(int id, MemberUpdateViewModel memberUpdateDetails)
         {
             var memberRepository = _unitOfWork.GetRepository<Member>();
@@ -121,8 +122,6 @@ namespace GymManagementBll.Services.Classes
                 // Use AutoMapper to map the update view model to the existing entity
                 _mapper.Map(memberUpdateDetails, memberToUpdate);
 
-                memberToUpdate.UpdateAt = DateTime.Now;
-
                 memberRepository.Update(memberToUpdate);
                 return _unitOfWork.SaveChanges() > 0;
             }
@@ -133,6 +132,7 @@ namespace GymManagementBll.Services.Classes
         }
         #endregion
 
+        #region Remove Member 
         public bool RenewMember(int MemberId)
         {
             var MemberRepositiry = _unitOfWork.GetRepository<Member>();
@@ -160,16 +160,19 @@ namespace GymManagementBll.Services.Classes
                 return false;
             }
 
-        }
+        } 
+        #endregion
 
         #region Helper Function Check Email&Phone
         private bool EmailExists(string email)
         {
-            return _unitOfWork.GetRepository<Member>().GetAll(me => me.Email == email).Any();
+            var EmailExist = _unitOfWork.GetRepository<Member>().GetAll(me => me.Email == email);
+            return EmailExist.Any();
         }
         private bool PhoneExists(string phone)
         {
-            return _unitOfWork.GetRepository<Member>().GetAll(me => me.Phone == phone).Any();
+            var PhoneExist = _unitOfWork.GetRepository<Member>().GetAll(me => me.Phone == phone);
+            return PhoneExist.Any();
         }
 
 

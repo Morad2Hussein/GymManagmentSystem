@@ -1,16 +1,14 @@
 ﻿
-
 using AutoMapper;
 using GymManagementBll.Services.Interfaces;
 using GymManagementBll.ViewModels.TrainerModels;
-using GymManagementDAL.Models.Common;
 using GymManagementDAL.Models.Entities;
-using GymManagementDAL.Models.Enum;
+
 using GymManagementDAL.UnitOfWork;
 
 namespace GymManagementBll.Services.Classes
 {
-    public class TrainerServices : ITranierService
+    public class TrainerServices : ITrainerService
     {
         private readonly UnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
@@ -124,6 +122,7 @@ namespace GymManagementBll.Services.Classes
             return activeSession;
         }
 
+      
 
 
         #endregion

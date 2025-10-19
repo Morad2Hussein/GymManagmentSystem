@@ -1,4 +1,5 @@
 ﻿using GymManagementDAL.Models.Common;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,9 @@ namespace GymManagementDAL.Models.Entities
     public class HealthRecord :BaseEntity
     {
         #region Properties
+        [Precision(5, 2)]
         public decimal Heigth { get; set; }
+        [Precision(5, 2)]
         public decimal Weigth { get; set; }
         public string BloodType { get; set; } = null!;
         public string? Note { get; set; }

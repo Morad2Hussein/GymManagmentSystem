@@ -3,7 +3,7 @@
 
 namespace GymManagementBll.Services.Interfaces
 {
-    internal interface IMemberService
+    public interface IMemberService
     {
 
         IEnumerable<MemberViewModel> GetALLMembers();
@@ -16,3 +16,5 @@ namespace GymManagementBll.Services.Interfaces
       bool RenewMember(int MemberId);
     }
 }
+
+

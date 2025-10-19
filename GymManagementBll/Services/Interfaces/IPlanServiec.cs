@@ -17,3 +17,7 @@ namespace GymManagementBll.Services.Interfaces
 
     }
 }
+
+
+
+
