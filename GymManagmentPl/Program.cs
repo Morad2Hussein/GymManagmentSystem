@@ -71,6 +71,11 @@ namespace GymManagementPl
                 pattern: "{controller=Home}/{action=Index}/{id?}")
                 .WithStaticAssets();
 
+            app.MapControllerRoute(
+                name: "Member",
+                pattern: "{controller=Member}/{action=Index}/{id?}")
+                .WithStaticAssets();
+
             app.Run();
         }
     }

@@ -1,23 +1,18 @@
 ﻿@model IEnumerable<MemberViewModel>
 
-
-
-
-
-
-
-@* <div id="Alert" class="alert alert-success alert-dismissible fade show">
-                <i class="bi bi-check-circle-fill me-2"></i>
-                Member Created Successfully
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-            </div> 
-            *@
-
 @if (TempData["SuccessMessage"] != null)
 {
     <div id="Alert" class="alert alert-success alert-dismissible fade show">
         <i class="bi bi-check-circle-fill me-2"></i>
         @TempData["SuccessMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+else if (TempData["ErrorMessage"] != null)
+{
+    <div id="Alert" class="alert alert-danger alert-dismissible fade show">
+        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+        @TempData["ErrorMessage"]
         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
     </div>
 }
@@ -138,17 +133,6 @@
 @section Scripts {
 
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const alertBox = document.getElementById("Alert");
-            if (alertBox) {
-                setTimeout(() => {
-                    alertBox.style.transition = "opacity 0.5s ease";
-                    alertBox.style.opacity = "0";
-                    setTimeout(() => alertBox.remove(), 500);
-                }, 1500);
-            }
-        });
-    </script>
+    <partial name="_AlertBoxScript.cshtml" />
 }
 

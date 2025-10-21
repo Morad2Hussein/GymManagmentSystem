@@ -10,9 +10,9 @@ namespace GymManagementBll.Services.Classes
 {
     public class TrainerServices : ITrainerService
     {
-        private readonly UnitOfWork _unitOfWork;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        public TrainerServices(UnitOfWork unitOfWork, IMapper mapper)
+        public TrainerServices(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;

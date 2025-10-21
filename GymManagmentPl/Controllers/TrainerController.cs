@@ -1,5 +1,6 @@
 ﻿using GymManagementBll.Services.Classes;
 using GymManagementBll.Services.Interfaces;
+using GymManagementBll.ViewModels.TrainerModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GymManagementPl.Controllers
@@ -41,6 +42,27 @@ namespace GymManagementPl.Controllers
         {
             return View();
         }
+        [HttpPost]
+        public ActionResult Create(TrainerCreateViewModel trainerCreateView)
+        {
+            if (!ModelState.IsValid)
+            {
+                ModelState.AddModelError(key: "DataInvalid", errorMessage: "Check Data And Missing Fields");
+                return View(nameof(Create), trainerCreateView);
+            }
+            bool Result = _trainerService.CreateTrainer(trainerCreateView);
+            if (Result)
+            {
+                TempData["SuccessMessage"] = "Trainer Created Successfully";
+            }
+            else
+            {
+                TempData["ErrorMessage"] = "Trainer Failed To Create , Check Your Data";
+            }
+            return RedirectToAction(nameof(Index));
+
+        }
         #endregion
     }
+
 }
