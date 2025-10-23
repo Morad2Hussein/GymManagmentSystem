@@ -25,7 +25,7 @@ namespace GymManagementBll.ViewModels.TrainerModels
         #region PhoneNumber 
         [Required(ErrorMessage = "Phone is Required Please Enter Your Phone.")]
         [Phone(ErrorMessage = "Invliod Phone Format ")]
-        [RegularExpression(@"^(011|012|015)\d{8}$", ErrorMessage = "Phone Number Must Be Valid Egyption PhoneNumber")]
+        [RegularExpression(@"^(011|012|015|010)\d{8}$", ErrorMessage = "Phone Number Must Be Valid Egyption PhoneNumber")]
         [DataType(DataType.PhoneNumber)] // UI HINT TO MAKE USER KeyBoard AS A Formate Number 
         public string Phone { get; set; } = null!;
         #endregion

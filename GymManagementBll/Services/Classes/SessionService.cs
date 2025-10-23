@@ -12,9 +12,9 @@ namespace GymManagementBll.Services.Classes
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        public SessionService(UnitOfWork unitOfWork, IMapper mapper)
+        public SessionService(IUnitOfWork iunitOfWork, IMapper mapper)
         {
-            _unitOfWork = unitOfWork;
+            _unitOfWork = iunitOfWork;
             _mapper = mapper;
         }
 

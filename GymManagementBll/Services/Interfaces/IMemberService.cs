@@ -13,7 +13,7 @@ namespace GymManagementBll.Services.Interfaces
         MemberUpdateViewModel? GetMemberUpdateDetails(int MemberId);
              // New Update data =>  
         bool UpdateMemberDetails(int id, MemberUpdateViewModel memberUpdateDetails);
-      bool RenewMember(int MemberId);
+      bool RemoveMember(int MemberId);
     }
 }
 

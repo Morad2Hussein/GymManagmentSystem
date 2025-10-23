@@ -24,7 +24,8 @@ namespace GymManagementDAL.Repositories.classes
 
         public int GetCountOfBookedSlotes(int id)
         {
-            return _dbContext.MemberSessions.Count(x => x.Id == id);
+            return _dbContext.MemberSessions.Count(x => x.SessionId == id);
+
         }
 
         public Session? GetSessionWithTrainerAndCategory(int id)

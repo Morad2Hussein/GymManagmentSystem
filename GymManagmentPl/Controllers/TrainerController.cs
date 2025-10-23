@@ -2,6 +2,7 @@
 using GymManagementBll.Services.Interfaces;
 using GymManagementBll.ViewModels.TrainerModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace GymManagementPl.Controllers
 {
@@ -28,9 +29,9 @@ namespace GymManagementPl.Controllers
                 TempData["ErrorMessage"] = "Id of Member Can Not Be 0 Or Negative Number";
                 return RedirectToAction(nameof(Index));
             }
-            if (trainer is null)
+            if (trainer == null)
             {
-                TempData["ErrorMessage"] = "Member  not found";
+                TempData["ErrorMessage"] = "Trainer  not found";
                 return RedirectToAction(nameof(Index));
             }
             return View(trainer);
@@ -61,6 +62,84 @@ namespace GymManagementPl.Controllers
             }
             return RedirectToAction(nameof(Index));
 
+        }
+        #endregion
+        #region Edit 
+        public ActionResult Edit(int id)
+        {
+            if (id <= 0)
+            {
+                TempData["ErrorMessage"] = "Id of Trainer Can Not Be 0 Or Negative Number";
+                return RedirectToAction(nameof(Index));
+            }
+            var Trainer = _trainerService.GetTrainerUpdate(id);
+            if (Trainer == null)
+            {
+                TempData["ErrorMessage"] = "Trainer  not found";
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(Trainer);
+        }
+        [HttpPost]
+        public ActionResult Edit([FromRoute] int id, UpdateTrainerViewModel updateTrainerView)
+        {
+            if (!ModelState.IsValid)
+            {
+                ModelState.AddModelError(key: "DataMissed", "Check Missing Fields");
+
+                return View(updateTrainerView);
+            }
+            var trainerUpdate = _trainerService.UpdateTrainerDetails(id, updateTrainerView);
+            if (trainerUpdate)
+
+            {
+                TempData["SuccessMessage"] = "Trainer Updated Successfully.";
+            }
+            else
+            {
+                TempData["ErrorMessage"] = "Trainer Failed To Update .";
+            }
+            return RedirectToAction(nameof(Index));
+
+
+
+        }
+        #endregion
+
+        #region Delete
+        public ActionResult Delete(int id)
+        {
+            if (id <= 0)
+            {
+                TempData["ErorrMessage"] = "Id of Trainer Can Not Be 0 Or Negative Number";
+                return RedirectToAction(nameof(Index));
+            }
+            var Trainer = _trainerService.GetTrainerDetailsById(id);
+            if (Trainer is null)
+            {
+                TempData["ErorrMessage"] = "Trainer not found ";
+                return RedirectToAction(nameof(Index));
+
+            }
+            ViewBag.TrainerId = id;
+            ViewBag.TrainerName = Trainer.Name;
+            return View();
+        }
+        [HttpPost]
+        public ActionResult DeleteConfirmed([FromForm] int id)
+        {
+            var member = _trainerService.DeleteTrainerDetails(id);
+            if (member)
+
+            {
+                TempData["SuccessMessage"] = "Trainer Delete Successfully.";
+            }
+            else
+            {
+                TempData["ErrorMessage"] = "Trainer Failed To Delete .";
+            }
+            return RedirectToAction(nameof(Index));
         }
         #endregion
     }

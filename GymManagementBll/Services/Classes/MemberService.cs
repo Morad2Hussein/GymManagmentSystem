@@ -112,8 +112,11 @@ namespace GymManagementBll.Services.Classes
             try
             {
                 // Check if phone or email already exists
-                if (PhoneExists(memberUpdateDetails.Phone) || EmailExists(memberUpdateDetails.Email))
-                    return false;
+                var EmailExists = _unitOfWork.GetRepository<Member>()
+                                   .GetAll(x => x.Email == memberUpdateDetails.Email && x.Id != id);
+                var PhoneExists = _unitOfWork.GetRepository<Member>()
+                                   .GetAll(x => x.Phone == memberUpdateDetails.Phone && x.Id != id);
+                if(EmailExists.Any() || PhoneExists.Any()) return false;
 
                 var memberToUpdate = memberRepository.GetById(id);
                 if (memberToUpdate is null)
@@ -133,34 +136,65 @@ namespace GymManagementBll.Services.Classes
         #endregion
 
         #region Remove Member 
-        public bool RenewMember(int MemberId)
+        //public bool RenewMember(int MemberId)
+        //{
+        //    var MemberRepositiry = _unitOfWork.GetRepository<Member>();
+        //    var MemberShipRepo = _unitOfWork.GetRepository<MemberShip>();
+        //    var Member = MemberRepositiry.GetById(MemberId);
+        //    if (Member is null) return false;
+        //    var HasActiveMemberSession = _unitOfWork.GetRepository<MemberSession>().GetAll(ms => ms.MemberId == MemberId && ms.Session.StartDate > DateTime.Now).Any();
+        //    if (HasActiveMemberSession) return false;
+        //    var MemberShips = MemberShipRepo.GetAll(ms => ms.MemberId == MemberId);
+        //    try
+        //    {
+        //        if (MemberShips.Any())
+        //        {
+        //            foreach (var memberShip in MemberShips)
+        //            {
+        //                MemberShipRepo.Delete(memberShip);
+        //            }
+        //        }
+        //        MemberRepositiry.Delete(Member);
+        //        return _unitOfWork.SaveChanges() > 0;
+
+        //    }
+        //    catch (Exception)
+        //    {
+        //        return false;
+        //    }
+
+        //} 
+        public bool RemoveMember(int MemberId)
         {
-            var MemberRepositiry = _unitOfWork.GetRepository<Member>();
-            var MemberShipRepo = _unitOfWork.GetRepository<MemberShip>();
-            var Member = MemberRepositiry.GetById(MemberId);
+            var Repo = _unitOfWork.GetRepository<Member>();
+            var Member = Repo.GetById(MemberId);
             if (Member is null) return false;
-            var HasActiveMemberSession = _unitOfWork.GetRepository<MemberSession>().GetAll(ms => ms.MemberId == MemberId && ms.Session.StartDate > DateTime.Now).Any();
-            if (HasActiveMemberSession) return false;
-            var MemberShips = MemberShipRepo.GetAll(ms => ms.MemberId == MemberId);
+            var sessionIds = _unitOfWork.GetRepository<MemberSession>().GetAll(
+               b => b.MemberId == MemberId).Select(S => S.SessionId); // 1 5 8
+
+            var hasFutureSessions = _unitOfWork.GetRepository<Session>()
+                .GetAll(S => sessionIds.Contains(S.Id) && S.StartDate > DateTime.Now).Any();
+
+            if (hasFutureSessions) return false;
+
+            var MemberShips = _unitOfWork.GetRepository<MemberShip>().GetAll(X => X.MemberId == MemberId);
+
             try
             {
                 if (MemberShips.Any())
                 {
-                    foreach (var memberShip in MemberShips)
-                    {
-                        MemberShipRepo.Delete(memberShip);
-                    }
+                    foreach (var membership in MemberShips)
+                        _unitOfWork.GetRepository<MemberShip>().Delete(membership);
                 }
-                MemberRepositiry.Delete(Member);
+                _unitOfWork.GetRepository<Member>().Delete(Member);
                 return _unitOfWork.SaveChanges() > 0;
-
             }
-            catch (Exception)
+            catch
             {
                 return false;
             }
 
-        } 
+        }
         #endregion
 
         #region Helper Function Check Email&Phone

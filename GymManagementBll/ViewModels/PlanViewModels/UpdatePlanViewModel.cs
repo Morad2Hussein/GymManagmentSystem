@@ -28,10 +28,10 @@ namespace GymManagementBll.ViewModels.PlanViewModels
 
         #endregion
         #region Price
-        [Required(ErrorMessage ="The Price Is Required")]
+        [Required(ErrorMessage = "The Pirce Is Required")]
         [Range( 250,10000, ErrorMessage = "Duration Days Must Be Between 250 to 10000 ")]
          
-        public decimal Price { get; set; }
+        public decimal Pirce { get; set; }
 
         #endregion
     }

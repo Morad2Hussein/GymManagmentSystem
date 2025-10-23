@@ -14,16 +14,16 @@ namespace GymManagementBll.Services.Classes
 {
     public class PlanServiec : IPlanServiec
     {
-        private readonly UnitOfWork _unitOfWork;
+        private readonly IUnitOfWork _iunitOfWork;
         private readonly IMapper _imapper;
-         public PlanServiec(UnitOfWork unitOfWork, IMapper mapper) {
-          _unitOfWork = unitOfWork;
+         public PlanServiec(IUnitOfWork iunitOfWork, IMapper mapper) {
+          _iunitOfWork = iunitOfWork;
             _imapper = mapper;
         }
         #region GetAll
         public IEnumerable<PlanViewModel> GetAllPlans()
         {
-            var Plans = _unitOfWork.GetRepository<Plan>().GetAll();
+            var Plans = _iunitOfWork.GetRepository<Plan>().GetAll();
             if (Plans == null || !Plans.Any()) return [];
 
             var PlanView = _imapper.Map<IEnumerable<Plan>, IEnumerable<PlanViewModel>>(Plans);
@@ -34,7 +34,7 @@ namespace GymManagementBll.Services.Classes
 
         public PlanViewModel? GetPlanById(int id)
         {
-            var Plan = _unitOfWork.GetRepository<Plan>().GetById(id);
+            var Plan = _iunitOfWork.GetRepository<Plan>().GetById(id);
             if (Plan is null) return null;
 
             var PlanView = _imapper.Map<Plan, PlanViewModel>(Plan);
@@ -45,7 +45,7 @@ namespace GymManagementBll.Services.Classes
 
         public bool ToggleStatus(int id)
         {
-            var PlanRepo = _unitOfWork.GetRepository<Plan>();
+            var PlanRepo = _iunitOfWork.GetRepository<Plan>();
             var Plan = PlanRepo.GetById(id);
             if (Plan is null || Plan.IsVctive == false || HasMemberActive(id)) return false;
             Plan.IsVctive = Plan.IsVctive == true ? false : true;
@@ -53,7 +53,7 @@ namespace GymManagementBll.Services.Classes
             try
             {
                 PlanRepo.Update(Plan);
-                return _unitOfWork.SaveChanges() >0;
+                return _iunitOfWork.SaveChanges() >0;
             }
             catch (Exception ex)
             {
@@ -70,7 +70,7 @@ namespace GymManagementBll.Services.Classes
 
         public UpdatePlanViewModel UpdatePlanById(int  PlanId)
         {
-            var Plan = _unitOfWork.GetRepository<Plan>().GetById(PlanId);
+            var Plan = _iunitOfWork.GetRepository<Plan>().GetById(PlanId);
             if (Plan == null  || HasMemberActive(PlanId)) return null;
             //if (Plan is null  || Plan.IsVctive == false || HasMemberActive(PlanId)) return null;
             return _imapper.Map<UpdatePlanViewModel>(Plan);
@@ -80,15 +80,15 @@ namespace GymManagementBll.Services.Classes
         } 
         public bool UpdatePlan(int id, UpdatePlanViewModel planViewModel)
         {
-            var Plan = _unitOfWork.GetRepository<Plan>().GetById(id);
+            var Plan = _iunitOfWork.GetRepository<Plan>().GetById(id);
             try
             {
             if(Plan is null || HasMemberActive(id) ) return false;
               
                _imapper.Map<UpdatePlanViewModel>(Plan);
                 Plan.UpdateAt = DateTime.Now;
-                _unitOfWork.GetRepository<Plan>().Update(Plan);
-                return _unitOfWork.SaveChanges() > 0;
+                _iunitOfWork.GetRepository<Plan>().Update(Plan);
+                return _iunitOfWork.SaveChanges() > 0;
             }
             catch 
             {
@@ -103,7 +103,7 @@ namespace GymManagementBll.Services.Classes
         #region Helper Function
        private bool HasMemberActive(int planId)
         {
-            var ActiveMember = _unitOfWork.GetRepository<MemberShip>().GetAll(ms => ms.PlanId == planId && ms.Status=="Active");
+            var ActiveMember = _iunitOfWork.GetRepository<MemberShip>().GetAll(ms => ms.PlanId == planId && ms.Status=="Active");
             return ActiveMember.Any();
         } 
 
