@@ -18,7 +18,7 @@ namespace GymManagementDAL.Data.Configurations
             //Description varchar With Max Length 200
 
             //Price Stored as a decimal with 10 digits in total and 2 digits after the decimal point 
-            builder.Property(P => P.Pirce)
+            builder.Property(P => P.Price)
                     .HasPrecision(10, 2);
 
             //Duration Days From 1 To 365

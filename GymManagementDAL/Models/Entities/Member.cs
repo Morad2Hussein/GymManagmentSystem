@@ -10,7 +10,7 @@ namespace GymManagementDAL.Models.Entities
     public class Member : GymUser
     {
         #region  Properties
-        public string? Photo { get; set; }
+        public string Photo { get; set; } = null!;
         // Note the JionDate is a CreateAT 
         #endregion
         #region Relationships 

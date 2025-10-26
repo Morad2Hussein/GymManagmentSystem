@@ -47,8 +47,8 @@ namespace GymManagementBll.Services.Classes
         {
             var PlanRepo = _iunitOfWork.GetRepository<Plan>();
             var Plan = PlanRepo.GetById(id);
-            if (Plan is null || Plan.IsVctive == false || HasMemberActive(id)) return false;
-            Plan.IsVctive = Plan.IsVctive == true ? false : true;
+            if (Plan is null || Plan.IsActive == false || HasMemberActive(id)) return false;
+            Plan.IsActive = Plan.IsActive == true ? false : true;
             Plan.UpdateAt = DateTime.Now;
             try
             {
