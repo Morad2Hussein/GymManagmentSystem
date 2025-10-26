@@ -1,5 +1,6 @@
 ﻿
 using GymManagementBll.Mapping;
+using GymManagementBll.Services.AttachmentService;
 using GymManagementBll.Services.Classes;
 using GymManagementBll.Services.Interfaces;
 using GymManagementDAL.Data.Context;
@@ -36,6 +37,7 @@ namespace GymManagementPl
             builder.Services.AddScoped<ITrainerService,TrainerServices>();
             builder.Services.AddScoped<IPlanServiec, PlanServiec>();
             builder.Services.AddScoped<ISessionService, SessionService>();
+            builder.Services.AddScoped<IAttachmentService, AttachmentService>();
             var app = builder.Build();
             // “start to add data seeding before any data insert”
             #region Adding Data Seeding 
