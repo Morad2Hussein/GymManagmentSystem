@@ -7,7 +7,7 @@
         <h3 class="text-primary-color">Add Member</h3>
     </header>
     @Html.ValidationMessage("DataInValid", new { @class = "text-danger " })
-    <form asp-action="CreateMember" method="post">
+    <form asp-action="CreateMember" asp-controller="Member" method="post" enctype="multipart/form-data">
 
         <!-- Step navigation -->
         <ul class="nav nav-tabs mb-4" id="addMemberTabs" role="tablist">
@@ -38,7 +38,8 @@
                     <img id="photoPreview" src="#" alt="Photo Preview" style="max-width: 200px; display: none;"
                          class="img-thumbnail" />
 
-                    <label asp-for="PhotoFile" class="control-label">Profile Photo <span class="text-danger"> *</span></label>                    <input asp-for="PhotoFile" type="file" class="form-control" accept="image/*" id="photoInput" required />
+                    <label asp-for="PhotoFile" class="control-label">Profile Photo <span class="text-danger"> *</span></label>
+                    <input asp-for="PhotoFile" type="file" class="form-control" accept="image/*" id="photoInput" required />
                     <span asp-validation-for="PhotoFile" class="text-danger"></span>
                     <small class="form-text text-muted">Max size: 5 MB. Allowed types: JPG, PNG , JPEG  (Required)</small>
                 </div>
@@ -161,20 +162,34 @@
 
     <partial name="_ValidationScriptsPartial" />
     <script>
-        // Preview photo before upload
         document.getElementById('photoInput').addEventListener('change', function (e) {
-            var file = e.target.files[0];
-            if (file) {
-                var reader = new FileReader();
+            const file = e.target.files[0];
+            const preview = document.getElementById('photoPreview');
+            if (!file) return;
 
-                reader.onload = function (event) {
-                    var preview = document.getElementById('photoPreview');
-                    preview.src = event.target.result;
-                    preview.style.display = 'block';
-                };
+            const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+            const maxSize = 5 * 1024 * 1024; // 5 MB
 
-                reader.readAsDataURL(file);
+            if (!allowedTypes.includes(file.type)) {
+                alert('Allowed types: JPG, PNG, JPEG');
+                e.target.value = '';
+                preview.style.display = 'none';
+                return;
             }
+
+            if (file.size > maxSize) {
+                alert('File size must be less than 5 MB');
+                e.target.value = '';
+                preview.style.display = 'none';
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function (event) {
+                preview.src = event.target.result;
+                preview.style.display = 'block';
+            };
+            reader.readAsDataURL(file);
         });
     </script>
 

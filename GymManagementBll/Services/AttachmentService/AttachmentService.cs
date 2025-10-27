@@ -27,7 +27,7 @@ namespace GymManagementBll.Services.AttachmentService
                 //1- check if (folder name && file) is null or not && Extension is one of element from my allowedExtension
                 if (folderName is null || file is null || file.Length == 0) return null;
                 // check if the size of the file matches the condition or not 
-                if (file.Length > maxFileSize) return ;
+                if (file.Length > maxFileSize) return  null;
                 //  Get the Extension of the file
                 var extension = Path.GetExtension(file.FileName).ToLower();
                 // check if the extension is matches the allowedExtensions or not
