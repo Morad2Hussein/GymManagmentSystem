@@ -3,11 +3,13 @@ using GymManagementBll.Services.Classes;
 using GymManagementBll.Services.Interfaces;
 using GymManagementBll.ViewModels.MemberSessionViewModel;
 using GymManagementBll.ViewModels.MemberViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace GymManagementPl.Controllers
 {
+    [Authorize(Roles ="SuperAdmin")]
     public class MemberController : Controller
     {
         private readonly IMemberService _memberService;

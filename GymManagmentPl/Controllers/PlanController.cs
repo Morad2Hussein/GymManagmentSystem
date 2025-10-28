@@ -3,10 +3,12 @@ using GymManagementBll.Services.Interfaces;
 using GymManagementBll.ViewModels.PlanViewModels;
 using GymManagementDAL.Models.Entities;
 using GymManagementSystemBLL.Services.Classes;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GymManagementPl.Controllers
 {
+    [Authorize]
     public class PlanController : Controller
     {
         private readonly IPlanServiec _planServiec;

@@ -13,12 +13,13 @@ using GymManagementDAL.UnitOfWork;
 using GymManagementSystemBLL.Services.Classes;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 namespace GymManagementPl
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
@@ -29,30 +30,35 @@ namespace GymManagementPl
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
             });
 
+            #region Services
             //builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(IGenericRepository<>));
             //builder.Services.AddScoped<IPlanReposittory, PlanReposittory>();
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
             builder.Services.AddAutoMapper(au => au.AddProfile(new MappingProfile()));
             builder.Services.AddScoped<ISessionRepository, SessionRepository>();
             builder.Services.AddAutoMapper(au => au.AddProfile(new MappingProfile()));
-            builder.Services.AddScoped<IAnalyticsService,AnalyticsService>();
+            builder.Services.AddScoped<IAnalyticsService, AnalyticsService>();
             builder.Services.AddScoped<IMemberService, MemberService>();
-            builder.Services.AddScoped<ITrainerService,TrainerServices>();
+            builder.Services.AddScoped<ITrainerService, TrainerServices>();
             builder.Services.AddScoped<IPlanServiec, PlanServiec>();
             builder.Services.AddScoped<ISessionService, SessionService>();
             builder.Services.AddScoped<IAttachmentService, AttachmentService>();
+            builder.Services.AddScoped<IAccountService, AccountService>();
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>(
-                conf => {
+                conf =>
+                {
                     conf.User.RequireUniqueEmail = true;
 
                 })
                              .AddEntityFrameworkStores<GymManagementDbContext>();
-            builder.Services.ConfigureApplicationCookie(opetions => {
+            builder.Services.ConfigureApplicationCookie(opetions =>
+            {
                 opetions.LoginPath = "/Account/Login";
-                opetions.AccessDeniedPath = "/Account/AccessDenied"; 
+                opetions.AccessDeniedPath = "/Account/AccessDenied";
             });
             var app = builder.Build();
-            // “start to add data seeding before any data insert”
+
+            #endregion // “start to add data seeding before any data insert”
             #region Adding Data Seeding 
             //Creates a service scope → so you can resolve scoped services (like DbContext).
             //Applies any pending migrations automatically.
@@ -70,7 +76,7 @@ namespace GymManagementPl
             }
 
             GymDataSeeding.SeedData(dbContext);
-            IdentityDbContextSeeding.SeedData(roleManager, userManager);
+            await IdentityDbContextSeeding.SeedData(roleManager, userManager);
 
 
             #endregion
@@ -87,18 +93,16 @@ namespace GymManagementPl
             app.UseHttpsRedirection();
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapStaticAssets();
-            app.MapControllerRoute(
-                name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}")
-                .WithStaticAssets();
 
             app.MapControllerRoute(
-                name: "Member",
-                pattern: "{controller=Member}/{action=Index}/{id?}")
-                .WithStaticAssets();
+            name: "default",
+            pattern: "{controller=Account}/{action=Login}/{id?}")
+            .WithStaticAssets();
+
 
             app.Run();
         }

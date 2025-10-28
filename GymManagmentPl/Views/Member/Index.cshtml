@@ -1,4 +1,10 @@
 ﻿@model IEnumerable<MemberViewModel>
+@{
+
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
 
 @if (TempData["SuccessMessage"] != null)
 {
@@ -79,7 +85,7 @@ else if (TempData["ErrorMessage"] != null)
                                         </li>
                                         <li>
                                             <a asp-controller="Member" asp-action="HealthRecord" asp-route-Id="@member.Id"
-                                            class="dropdown-item d-flex align-items-center gap-3">
+                                               class="dropdown-item d-flex align-items-center gap-3">
                                                 <img src="~/images/info 1.jpg" alt="info icon"
                                                      style="width: 20px; height: 20px;" />
                                                 <span>View Health Record Data</span>

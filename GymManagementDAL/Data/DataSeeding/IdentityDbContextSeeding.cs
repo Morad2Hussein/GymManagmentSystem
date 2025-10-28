@@ -10,7 +10,7 @@ namespace GymManagementDAL.Data.DataSeeding
 {
     public static class IdentityDbContextSeeding
     {
-        public static bool SeedData(RoleManager<IdentityRole> roleManager, UserManager<ApplicationUser> userManager)
+        public static async Task<bool> SeedData(RoleManager<IdentityRole> roleManager, UserManager<ApplicationUser> userManager)
         {
             try
             {
@@ -33,7 +33,7 @@ namespace GymManagementDAL.Data.DataSeeding
                     {
                         if (!roleManager.RoleExistsAsync(Role.Name!).Result)
                         {
-                            roleManager.CreateAsync(Role).Wait();
+                          await  roleManager.CreateAsync(Role);
                         }
 
                     }
@@ -49,8 +49,7 @@ namespace GymManagementDAL.Data.DataSeeding
                         Email = "MoradMohamed@gmail.com",
                         PhoneNumber = "01282265359",
                     };
-                    userManager.CreateAsync(MainAdmin, "P@sswOrd").Wait();
-                    userManager.AddToRoleAsync(MainAdmin, "SuperAdmin").Wait();
+                    await userManager.CreateAsync(MainAdmin, "P@ssw0rd");
                     var Admin = new ApplicationUser()
                     {
                         FirstName = "Ahmed",
@@ -59,8 +58,10 @@ namespace GymManagementDAL.Data.DataSeeding
                         Email = "AhmedMohamed@gmail.com",
                         PhoneNumber = "01232265359",
                     };
-                    userManager.CreateAsync(Admin, "P@sswOrd").Wait();
-                    userManager.AddToRoleAsync(Admin, "Admin").Wait();
+                    await userManager.CreateAsync(Admin, "P@ssw0rd");
+
+                    await userManager.AddToRoleAsync(MainAdmin, "SuperAdmin");
+                    await userManager.AddToRoleAsync(Admin, "Admin");
                 }
 
                 return true;
