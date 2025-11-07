@@ -13,7 +13,6 @@ using GymManagementDAL.UnitOfWork;
 using GymManagementSystemBLL.Services.Classes;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using System.Threading.Tasks;
 
 namespace GymManagementPl
 {
@@ -44,6 +43,7 @@ namespace GymManagementPl
             builder.Services.AddScoped<ISessionService, SessionService>();
             builder.Services.AddScoped<IAttachmentService, AttachmentService>();
             builder.Services.AddScoped<IAccountService, AccountService>();
+            builder.Services.AddScoped<IMembershipService, MembershipService>();
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>(
                 conf =>
                 {

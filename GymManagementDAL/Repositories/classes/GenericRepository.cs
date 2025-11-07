@@ -30,7 +30,10 @@ namespace GymManagementDAL.Repositories.classes
         public void Update(TEntity entity)=>   _dbContext.Set<TEntity>().Update(entity);
          
         public void Delete(TEntity entity)=>   _dbContext.Set<TEntity>().Remove(entity);
-         
 
+        public bool Exists(Func<TEntity, bool> predicate)
+        {
+            return _dbContext.Set<TEntity>().Any(predicate);
+        }
     }
 }

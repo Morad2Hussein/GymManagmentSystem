@@ -14,6 +14,7 @@ namespace GymManagementDAL.Repositories.Interfaces
         void Update(TEntity entity);
         // Delete 
         void Delete(TEntity entity);
+        bool Exists(Func<TEntity, bool> predicate);
 
 
 
