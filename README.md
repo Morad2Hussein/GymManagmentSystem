@@ -1,28 +1,33 @@
-GymManagementSystem – MVC Project (Repository + Unit of Work + EF Core)
+GymManagementSystem
+ASP.NET Core MVC Project (Repository Pattern • Unit of Work • EF Core • SQL Server • AutoMapper • Cookies)
 
 GymManagementSystem is an ASP.NET Core MVC application built using clean architecture principles.
-The project implements the Repository Pattern and Unit of Work Pattern to ensure a clean, scalable, and maintainable codebase.
-It uses Entity Framework Core for ORM, SQL Server as the database provider, and AutoMapper for efficient mapping between entities and ViewModels/DTOs.
+The project follows best practices such as the Repository Pattern and Unit of Work Pattern to ensure maintainability, scalability, and clean separation of concerns.
 
-The Views/UI were developed by a Frontend Developer and integrated into the MVC application.
-They are built using HTML, CSS, JavaScript, and Bootstrap, providing a responsive and user-friendly interface.
+It uses Entity Framework Core for ORM, SQL Server as the database provider, AutoMapper for mapping between Entities and DTOs, and Cookies for session management and improving user experience.
 
-Features
+The Views/UI were designed and implemented by a Frontend Developer, built with HTML, CSS, JavaScript, and Bootstrap to provide a responsive, clean, and user-friendly interface.
+
+📌 Features
 
 ✔️ ASP.NET Core MVC architecture
 
 ✔️ Repository Pattern for clean and reusable data access
 
-✔️ Unit of Work Pattern for managing database transactions
+✔️ Unit of Work Pattern for efficient transaction management
 
-✔️ Entity Framework Core (EF Core)
+✔️ Entity Framework Core for ORM
 
 ✔️ SQL Server database integration
 
-✔️ AutoMapper for mapping between entities and DTOs/ViewModels
+✔️ AutoMapper for mapping Entities ↔ DTOs/ViewModels
 
-✔️ Full CRUD operations
+✔️ Uses Cookies for session handling and user experience
 
-✔️ Clean architecture and clear separation of concerns
+✔️ Fully implemented CRUD operations
 
-✔️ Easy to extend, maintain, and scale
+✔️ Clean architecture and separation of concerns
+
+✔️ Responsive UI created by a Frontend Developer
+
+✔️ Easy to extend, test, and maintain
