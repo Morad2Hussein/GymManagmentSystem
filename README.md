@@ -1,33 +1,56 @@
-GymManagementSystem
-ASP.NET Core MVC Project (Repository Pattern • Unit of Work • EF Core • SQL Server • AutoMapper • Cookies)
+# 🏋️‍♂️ Gym Management System
+**Advanced ASP.NET Core MVC Implementation | Clean Architecture**
 
-GymManagementSystem is an ASP.NET Core MVC application built using clean architecture principles.
-The project follows best practices such as the Repository Pattern and Unit of Work Pattern to ensure maintainability, scalability, and clean separation of concerns.
 
-It uses Entity Framework Core for ORM, SQL Server as the database provider, AutoMapper for mapping between Entities and DTOs, and Cookies for session management and improving user experience.
 
-The Views/UI were designed and implemented by a Frontend Developer, built with HTML, CSS, JavaScript, and Bootstrap to provide a responsive, clean, and user-friendly interface.
+A robust management solution designed to handle gym operations with a focus on **decoupling** and **transactional integrity**. This project serves as a showcase of modern .NET backend patterns.
 
-📌 Features
+---
 
-✔️ ASP.NET Core MVC architecture
+## 🏗 Architectural Highlights
 
-✔️ Repository Pattern for clean and reusable data access
+This project isn't just a CRUD app; it's built with scalability in mind:
 
-✔️ Unit of Work Pattern for efficient transaction management
+* **Repository Pattern:** Abstracts the data access logic, making the application easier to maintain and unit test by decoupling the controller from EF Core.
+* **Unit of Work Pattern:** Ensures that all repository operations within a single business transaction succeed or fail together, maintaining strict database ACID properties.
+* **Data Mapping (AutoMapper):** Implemented to strictly separate **Domain Entities** from **ViewModels/DTOs**, preventing sensitive data exposure and reducing boilerplate code.
+* **Session Management:** Secured using **Cookie-based Authentication**, providing a lightweight and reliable user experience.
 
-✔️ Entity Framework Core for ORM
+---
 
-✔️ SQL Server database integration
+## 🛠️ Tech Stack
 
-✔️ AutoMapper for mapping Entities ↔ DTOs/ViewModels
+| Layer | Technology |
+| :--- | :--- |
+| **Framework** | ASP.NET Core MVC |
+| **Language** | C# (Modern Syntax) |
+| **ORM** | Entity Framework Core |
+| **Database** | Microsoft SQL Server |
+| **Mapping** | AutoMapper |
+| **UI/UX** | Bootstrap 5, JS, CSS3, HTML5 |
 
-✔️ Uses Cookies for session handling and user experience
+---
 
-✔️ Fully implemented CRUD operations
+## 🚀 Key Features
 
-✔️ Clean architecture and separation of concerns
+- ✅ **Member Management:** Full lifecycle tracking (Registration, Membership status).
+- ✅ **Transaction Safety:** Guaranteed by the Unit of Work pattern.
+- ✅ **Responsive Design:** A professional UI crafted by a Frontend Specialist for seamless mobile/desktop use.
+- ✅ **Secure Sessions:** Efficient tracking via optimized Cookie management.
+- ✅ **Clean Separation:** Clear division of concerns (Controllers, Services, Repositories).
 
-✔️ Responsive UI created by a Frontend Developer
+---
 
-✔️ Easy to extend, test, and maintain
+## 📁 Project Structure
+
+```text
+GymManagementSystem/
+├── 📂 Controllers         # Handles HTTP requests & coordinates between Services
+├── 📂 Data                # Core Data Layer
+│   ├── 📂 Repositories    # Implementation of Data Access Logic
+│   └── 📂 UnitOfWork      # Coordination of multiple repository operations
+├── 📂 Models              # Database Entities (Domain Layer)
+├── 📂 DTOs/ViewModels     # Data Transfer Objects for the Presentation Layer
+├── 📂 Services            # Business Logic Layer
+├── 📂 Views               # Razor Views (UI)
+└── 📂 wwwroot             # Static files (CSS, JS, Images)
